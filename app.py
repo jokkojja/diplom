@@ -1,15 +1,9 @@
 from dash import Dash, dcc, html
 from dash.dependencies import Input, Output, State
+import dash_bootstrap_components as dbc
 
 
-external_stylesheets = [
-    {
-        "href": "C:/Users/potak/OneDrive/Desktop/test/diplom/assets/style.css"
-        #"family=Lato:wght@400;700&display=swap",
-        #"rel": "stylesheet",
-    },
-]
-app = Dash(__name__, external_stylesheets=external_stylesheets)
+app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 app.title = "Дипломная работа"
 
 app.layout = html.Div(
@@ -45,10 +39,6 @@ app.layout = html.Div(
                                 html.Div(
                                     className="input",
                                     children=[
-                                        html.Form(
-                                            method="POST",
-                                            action="/",
-                                            children=[
                                                 html.Div(
                                                     className="box",
                                                     children=[
@@ -60,8 +50,6 @@ app.layout = html.Div(
                                                         ])
                                                     ]   
                                                 )
-                                            ]
-                                        )
                                         
                                     ]
                                 )
