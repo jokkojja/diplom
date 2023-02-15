@@ -5,9 +5,13 @@ __pycache__/
 
 # C extensions
 *.so
-
+calculating_waves
+*.out
 # Env
 *.env
+
+#custom
+.DS_Store
 
 # Distribution / packaging
 .Python
