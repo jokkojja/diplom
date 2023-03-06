@@ -104,9 +104,9 @@ def change_lang2(ts, username):
     State('pwd-box', 'type'),
     prevent_initiall_call=True
 )
-def hide_pass_1(n_clicks, type):
+def hide_pass_1(n_clicks, type_):
     if n_clicks is not None:
-        if type == 'password':
+        if type_ == 'password':
             return 'text', 'ant-design:eye-invisible-outlined'
         else:
             return 'password', 'ant-design:eye-outlined'

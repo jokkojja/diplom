@@ -13,3 +13,4 @@ client = MongoClient("mongodb://{}:{}@{}/{}?replicaSet=rs0".format(DATABASE_USER
 mydb = client[DATABASE_NAME]
 
 method = 'sha256'
+
