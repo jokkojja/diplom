@@ -94,7 +94,7 @@ layout = dbc.Container([dcc.Location(id='registration-login', refresh=True), htm
           Input('pwd2-registration', 'value'))
 def registration(n_clicks, username, email, pwd1, pws2):
     if n_clicks > 0:
-        create_user(username, pwd1, email)
+        create_user(username, pwd1, email) #TODO: Move to api, add DataClass
         return '/login', dbc.Alert('Registration successful ', color="success")
     else:
         return dash.no_update
