@@ -191,7 +191,7 @@ def start_calculations(nx, ny, T, nx1, nx2,
                 'mu2': mu2, 'tau': tau,
                 'D': D, 'Sq': Sq}
         # print(json)
-        requests.post(url='http://127.0.0.1:8051/calc', json=json)
+        resp = requests.post(url='http://127.0.0.1:8051/calc', json=json)
         return dbc.Alert("ЗАПУСТИЛОСЬ", color="success", duration=5000)
     else:
         return dash.no_update
