@@ -1,11 +1,11 @@
 import dash
-from dash import html, callback, Output, Input, State, dcc
+from dash import html, callback, Output, Input, State, dcc, ctx
 import dash_bootstrap_components as dbc
 from dash.exceptions import PreventUpdate
 from dash_iconify import DashIconify
 import dash_mantine_components as dmc
-from utils.work_with_database import check_username, check_user_password
-
+import requests
+from utils.work_with_api import UserFinctionality
 dash.register_page(__name__, path_template="/login")
 
 
@@ -51,51 +51,24 @@ def login_layout():
 
 layout = dbc.Container([dcc.Location(id='login-login', refresh=True), html.Div([], id='login-layout')])
 
-@callback(Output('user-name', 'data'),
-          Output('login-login', 'pathname'),
-          [Input('login-button', 'n_clicks'),
-           Input('uname-box', 'n_submit'),
-           Input('pwd-box', 'n_submit')],
-          [State('uname-box', 'value'),
-           State('pwd-box', 'value')])
-def login(n_clicks, n_submit_uname, n_submit_pwd, input1, input2):
-    if check_username(input1):
-        if check_user_password(input1, input2):
-            return input1, '/'
+@callback(Output('login-login', 'pathname'),
+          Output('output-state', 'children'),
+          Output('user-name', 'data'),
+          Input('uname-box', 'value'),
+          Input('pwd-box', 'value'),
+          Input('login-button', 'n_clicks')
+          )
+def login(username, password, n_clicks):
+    triggered_id = ctx.triggered_id
+    if n_clicks > 0 and triggered_id == 'login-button':
+        user = UserFinctionality()
+        response = user.send_login(username, password)
+        status_code = response.status_code
+        if status_code == 200:
+            return '/app', dbc.Alert(response.text, color="success"), username
         else:
-            return None, '/login'
-    else:
-        return None, '/login'
-
-
-@callback(Output('output-state', 'children'),
-          [Input('login-button', 'n_clicks'),
-           State('uname-box', 'n_submit'),
-           State('pwd-box', 'n_submit'),
-           State('uname-box', 'value'),
-           State('pwd-box', 'value')])
-def update_output(n_clicks, n_submit_uname, n_submit_pwd, input1, input2):
-
-    if n_clicks > 0 or n_submit_uname > 0 or n_submit_pwd > 0:
-        user = input1
-        if check_username(user):
-            if check_user_password(user, input2):
-                return ''
-            else:
-                return dbc.Alert('Incorrect username or password!', color="danger")
-        else:
-            return dbc.Alert('Incorrect username or password!', color="danger")
-    else:
-        return ''
-    
-@callback(
-    Output('login-layout', 'children'),
-    Input('user-name', 'modified_timestamp'),
-    State('user-name', 'data'))
-def change_lang2(ts, username):
-    if ts is None:
-        raise PreventUpdate
-    return login_layout()
+            return dash.no_update, dbc.Alert(response.text, color="danger"), None
+    return dash.no_update
 
 @callback(
     Output('pwd-box', 'type'),
@@ -112,3 +85,12 @@ def hide_pass_1(n_clicks, type_):
             return 'password', 'ant-design:eye-outlined'
     else:
         return dash.no_update, dash.no_update
+
+@callback(
+    Output('login-layout', 'children'),
+    Input('user-name', 'modified_timestamp'),
+    State('user-name', 'data'))
+def show_layout(ts, username):
+    if ts is None:
+        raise PreventUpdate
+    return login_layout()

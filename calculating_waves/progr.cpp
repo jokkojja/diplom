@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <math.h>
 #include <iostream>
+#include <string>
+#include <cstdio>
 
 using namespace std;
 void progonka(long double *A, long double *B, long double *C, long double *F, long double c0, long double d0, long double cn, long double dn, long double *x, int n1, int n2)
@@ -199,7 +201,8 @@ void expmask(int **g, int **gcon, int nx, int ny, long double hx, long double hy
 }
 
 int main(int argc, char *argv[])
-{   
+
+{   char concetrFileName[100];
     int nx = atoi(argv[1]), ny = atoi(argv[2]), i, j, p, T = atoi(argv[3]), t;
     int nx1 = atoi(argv[4]), nx2 = atoi(argv[5]), ny1 = atoi(argv[6]), ny2 = atoi(argv[7]), ny3 = atoi(argv[8]);
     long double ax = atof(argv[9]), bx = atof(argv[10]), ay = atof(argv[11]), by = atof(argv[12]);
@@ -218,7 +221,7 @@ int main(int argc, char *argv[])
     long double scontotal, sconnow, conouttotal, conoutnow;
 
     long double ROb, Pa, Pb, Vvoz, Vin, Mass, Mdelta, Sq = atof(argv[20]);
-
+    string calculationId = argv[21];
     long double y1, y2, y0, C0, C1, C2;
 
     long double **Mu;
@@ -571,7 +574,8 @@ int main(int argc, char *argv[])
     expmask(g, gcon, nx, ny, hx, hy, 0);
 
     FILE *ff;
-    ff = fopen("data/concetr.dat", "w");
+    sprintf(concetrFileName, "data/concetr_%s.dat", calculationId.c_str());
+    ff = fopen(concetrFileName, "w");
     fprintf(ff, "TITLE = Test\n");
     fprintf(ff, "VARIABLES = X,Y,U,V,P,C\n");
 
@@ -642,7 +646,7 @@ int main(int argc, char *argv[])
         }
     }
 
-    ff = fopen("data/concetr.dat", "a");
+    ff = fopen(concetrFileName, "a");
     exptc(unpred, con, g, nx, ny, hx, hy, 0, ff);
     fclose(ff);
     //выше работает
@@ -1505,7 +1509,7 @@ int main(int argc, char *argv[])
 
         if (t % 100 == 0 or t == 1) // контролировать частоту выгрузки
         { 
-            ff = fopen("data/concetr.dat", "a");
+            ff = fopen(concetrFileName, "a");
             exptc(un, con, g, nx, ny, hx, hy, t, ff);
             fclose(ff);
         }

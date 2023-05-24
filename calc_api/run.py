@@ -1,28 +1,59 @@
-from flask import Flask, request, jsonify
+from fastapi import FastAPI, Body, status
+from fastapi.responses import Response
+import requests
+import uvicorn
 import subprocess
 from config import CALCULATOR_PATH, PROG_NAME_CPP, PROG_NAME_EXE
 import os
+import psutil
+import signal
 
-app = Flask(__name__)
+app = FastAPI()
 
-@app.route('/calc', methods=['POST'])
-def calc():
+@app.post('/calc')
+def calc(data = Body()):
+
     try:
-        content = request.json
-    except Exception:
-        return app.make_response(('Failure: invalid JSON!\n', 500))
-    
-    subprocess.run([f"g++ -o ../{os.path.join(CALCULATOR_PATH, PROG_NAME_EXE)} ../{os.path.join(CALCULATOR_PATH, PROG_NAME_CPP)}"], shell=True)
-    try:
-        cmd = f'../{os.path.join(CALCULATOR_PATH, PROG_NAME_EXE)} '
-        for i in content.values():
+        username = data['username']
+        calc_id = data['calc_id']
+        data.pop('username')
+        subprocess.run([f'g++ -o ../{os.path.join(CALCULATOR_PATH, PROG_NAME_EXE + "_" + username + "_" + calc_id)} ../{os.path.join(CALCULATOR_PATH, PROG_NAME_CPP)}'], shell=True)
+        cmd = f'../{os.path.join(CALCULATOR_PATH, PROG_NAME_EXE + "_" + username + "_" + calc_id + " ")}'
+        for i in data.values():
             cmd += str(i) + ' '
-        subprocess.run([cmd], shell=True)
-        print(cmd)
-        return app.make_response(('Started process!\n', 200))
-    except Exception:
-        return app.make_response(('Failure. Problem with starting proocess!\n', 500))
+        process = subprocess.Popen([cmd], shell=True)
+        return Response(content = str(process.pid), status_code=status.HTTP_200_OK)
+    except Exception as e:
+        return Response(content = f"Извините, что-то пошло не так. Ошибка: {e}", status_code = status.HTTP_400_BAD_REQUEST)
     
+@app.get('/calc_status/{process_pid}')
+def get_status(process_pid):
+    try:
+        is_process_active = psutil.pid_exists(int(process_pid))
+        process_status = 'Active' if is_process_active is True else 'Inactive'
+        return Response(content = process_status, status_code=status.HTTP_200_OK)
+    except Exception as e:
+        return Response(content = f"Извините, что-то пошло не так. Ошибка: {e}", status_code = status.HTTP_400_BAD_REQUEST)
 
+@app.post('/stop_calculate')
+def stop_calculate(data = Body()):
+    try:
+        pid = data['pid']
+        is_process_active = requests.get(url=f"http://127.0.0.1:8053/calc_status/{pid}").content.decode('utf-8')
+        if is_process_active == 'Active':
+            os.kill(int(pid), signal.SIGKILL)
+            try:
+                os.remove(f'../calculating_waves/progr_{data["username"]}_{data["process_id"]}')
+            except FileNotFoundError:
+                pass  
+            return Response(content = "Процесс был остановлен", status_code=status.HTTP_200_OK)
+        else:
+            return Response(content = "Нет такого активного процесса", status_code=status.HTTP_200_OK)
+    except Exception as e:
+        return Response(content = f"Извините, что-то пошло не так. Ошибка: {e}", status_code = status.HTTP_400_BAD_REQUEST)
+
+@app.post('/upload_results')
+def upload_results():
+    pass
 if __name__ == '__main__':
-    app.run(debug=True, port=8051)
+   uvicorn.run(app, host="127.0.0.1", port=8053)

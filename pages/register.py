@@ -6,7 +6,7 @@ import dash
 from dash_iconify import DashIconify
 
 from utils.validation import check_name, check_password
-from utils.work_with_database import create_user
+from utils.work_with_api import UserFinctionality
 
 
 dash.register_page(__name__, path_template="/registration")
@@ -91,41 +91,20 @@ layout = dbc.Container([dcc.Location(id='registration-login', refresh=True), htm
           Input('uname-registration', 'value'),
           Input('email-registration', 'value'),
           Input('pwd-registration', 'value'),
-          Input('pwd2-registration', 'value'))
-def registration(n_clicks, username, email, pwd1, pws2):
+          )  
+def registration(n_clicks, username, email, password):
     if n_clicks > 0:
-        create_user(username, pwd1, email) #TODO: Move to api, add DataClass
-        return '/login', dbc.Alert('Registration successful ', color="success")
-    else:
-        return dash.no_update
-        
-
-#TODO: Add actions with button if registration data is not valid
-# @callback(Output('uname-registration', 'valid'),
-#           Output('uname-registration', 'invalid'),
-#           Output('email-registration', 'valid'),
-#           Output('email-registration', 'invalid'),          
-#           Output('pwd-registration', 'valid'),
-#           Output('pwd-registration', 'invalid'),     
-#           Output('pwd2-registration', 'valid'),
-#           Output('pwd2-registration', 'invalid'),
-#           Output('register-button', 'disabled'),               
-#           Input('uname-registration', 'value'),
-#           Input('email-registration', 'value'),
-#           Input('pwd-registration', 'value'),
-#           Input('pwd2-registration', 'value'))
-# def valid_registration_data(username, email, pswd1, pswd2):
-#     if username is None or email is None or pswd1 is None or pswd2 is None:
-#         return False, True, False, True, False, True, False, True, True
-#     else:
-#         if username is None:
-            
-        
-
+        user = UserFinctionality()
+        response = user.send_register(username, password, email)
+        status_code = response.status_code
+        if status_code == 200:
+            return '/login', dbc.Alert(response.text, color="success")
+        else:
+            return dash.no_update, dbc.Alert(response.text, color="danger")
+    return dash.no_update
 
 @callback(Output('uname-registration', 'valid'),
           Output('uname-registration', 'invalid'),
-        #   Output('register-button', 'disabled'),
           Input('uname-registration', 'value'),
           prevent_initiall_call=False
 )
@@ -137,20 +116,7 @@ def valid_username(username):
         return True, False
     else:
         return False, True
-    
-# @callback(Output('email-registration', 'valid'),
-#           Output('email-registration', 'invalid'),
-#           Input('email-registration', 'value'),
-#           prevent_initiall_call=False
-# )
-# def valid_email(email):
-#     if email is None:
-#         return dash.no_update
-#     email_valid = check_name(email)
-#     if email_valid:
-#         return True, False
-#     else:
-#         return False, True    
+      
             
 @callback(Output('pwd-registration', 'valid'),
           Output('pwd-registration', 'invalid'),

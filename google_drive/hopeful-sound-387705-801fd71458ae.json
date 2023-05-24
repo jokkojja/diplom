@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "hopeful-sound-387705",
+  "private_key_id": "801fd71458aeb97798a2cbd867662464fd058384",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQC1iUGoEv2CsCGm\nDGZqQUINB4JK7SsJwJQUAdhLC0j9P7JFutBI6NharTER2GNncefsvi5643PS/6pg\n71k9QcZG/upqQXUfY+J/vKL6PS7MibbwPGSkGXv9MXEFRMoDAe0Kg9F2ab2jiFaD\nMyCjrCzM9hYyDEzKKwWYOiLeBFFpd8Pjs6D5jUlhg74iK9x2keRmxjtYt16DBT6P\n0kvWrcydc9g9l+joDWier/PsuA2PbzjFFP5U6fzZ3Lp0ZRBTMvvQdIwYG2xRVoCW\nT6snMKqggOB1iDuzbRtv9b6IjWVg/WRbUdMJ39o7/u98s32BuQVQtM01uD9Bfh/q\n1VnYTFhPAgMBAAECggEACOkap2t937nR1QAxJhBbnnRwEUnF6Ih4MZPg8Cy2zEjM\nRn7udVMJ4kgzqzq8r68CzCHjpIA18bU/QYXOErh/89Z/CXB6wBaGNMXnbAgFHDYQ\nRtzNWylYZtZT7rHF2/2ZYIBAOk3jaJEAdMKAMiMj3yWfHkgbRtBzdFmPgj1NBQkD\njSfEy6zwk1b6frk7IImjjbnqdh0N8nJxcGIx8LtW/ze32jsVkZ4agZFGlYF9N4D3\n5lGGjWvIGSe+VZGiwgZ5//7Z5SGHytEilT1RJAjAbatMCtUtfyamNz/ZtEHiOXYR\nGfOUd/fgQjjkaJWUqs7Fmh5Ml6ZK4IEupZ8AoQY9FQKBgQDiBXL2M4sEbFmIgJr2\n7gH11vqKjYwCAZYEY1Gug9DEeFsvDolT/JilKMgY+vvax7cDm4put9gaB5NQwhOp\nNbnogfcUQCe3FB+R1FQ0WhumnuI6xWU+TwhaPWQuQhirkNXX44Oryp26XpbvTVix\nBbM0hgwvp99PGrql/usABzlU/QKBgQDNnVC05eOVgvYYyxbpBuPG3+WQ7qXs04gK\nBxNB2cjaXib+Qqb7k7DPotwocogiadoTxLDqjYL7nbWXYL/cvKFa1taOD7svTXR4\nY/ObubZsQ6QbtcvE2ZeQkXAGEtcn+rUURar4sCuLiz1f3sQhl6RtrojVGyBz/n2e\nR4PUhAlqOwKBgFwnfp0VnOvbxZGbZhOiLVhwI80UM26p+OGnISm3gwpoTD1efu2o\ngxBsFVHiG4gzf9JPu9yyxsCuMAlwaBXI2xkKzJQMKGVEJi8OVJrX1ohUJcdyrnn+\nPViVyV/3ARoKvrX8hLYpsa/IW2AMuEnNGikjMprHpowZSNrfmi9zwpN9AoGAKwXc\nyk1EBpfFiMCOBapkZMuajG3zGA/W6ko6tE+uoEqNHCy0JfXsTDYGnQwCAjll4TcJ\n0bpUivOf+JHM85IgrRJBCK6v+yDY2wwHADGmwxaQMyAiCAmDlkNoTk0I6huiYiCF\nus2Z/vPenr3NCj5hsHWRug2YB81bWZAbPI94LNsCgYBLSB1Vf/YH+RpZ8hC8qHhG\nsXPyKtEISt+lPujrpCmG8kEd03y88lV46ke53cixCbh2zkqZ9TpFK8auXeAU4IPx\nLmAWgmQtHFkZ2pJLbPyzl0z+Psuy4S7YIsamkXnPjlkHa0a9dReaaN3sodkBfn6V\nLR6XR+hJbxO1uGHlbKUkAQ==\n-----END PRIVATE KEY-----\n",
+  "client_email": "diplom@hopeful-sound-387705.iam.gserviceaccount.com",
+  "client_id": "111420014414353463265",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/diplom%40hopeful-sound-387705.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

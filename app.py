@@ -20,9 +20,13 @@ app.layout = html.Div([dcc.Location(id='url', refresh=False),
 
 @app.callback(Output("main-layout", "children"),
               Input('user-name', 'modified_timestamp'),
+              State('url', 'pathname'),
               State('user-name', 'data')
               )
-def set_lang_main(ts2, user):
+def set_lang_main(ts2, url, user=None):
+    if url != '/app':
+        user = None
+        
     if ts2 is None:
         raise PreventUpdate
     return layout(user)

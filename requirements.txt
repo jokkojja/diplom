@@ -3,7 +3,11 @@ dash_bootstrap_components==1.1.0
 dash_iconify==0.1.2
 dash_mantine_components==0.10.2
 firebase_admin==6.0.1
-Flask~=2.2.2
 pymongo~=4.3.3
 pyrebase4==4.5.0
 requests>=2.19.1
+fastapi
+uvicorn
+psutil
+google-api-python-client
+google

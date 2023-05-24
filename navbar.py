@@ -15,7 +15,7 @@ def navbar(user=None):
             dbc.DropdownMenu(nav=True, in_navbar=True, label=user,
                              children=[
                                        dbc.DropdownMenuItem('Log out', href='/login', id="logout_id", external_link=True)]),
-        ]
+        ]   
     navbar_block = dbc.NavbarSimple(
         children=navbar_children,
         brand="Wawe Calculator",
