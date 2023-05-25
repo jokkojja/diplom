@@ -6,6 +6,7 @@ import re
 from werkzeug.security import generate_password_hash, check_password_hash
 import datetime
 import uuid
+from io import BytesIO
 
 class User:
     def __init__(self, data: Body):
@@ -150,6 +151,10 @@ class User:
         file = service.files().create(body=file_metadata, fields='id'
                                     ).execute()
 
-        return file['id']  
+        return file['id'] 
+    
+    def get_result_file_from_drive(self, file_id, service=service):
+        file = service.files().get_media(fileId=file_id).execute() #bytes
+        return file
     
           

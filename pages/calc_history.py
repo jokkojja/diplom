@@ -73,7 +73,7 @@ def history_layout(username):
                 html.H1('История запусков'),
                 dcc.Link('Назад', href='/app'),
                 dbc.Row(id='delete-alert-row'),
-                dbc.Row(id='download-alert-row'),
+                dcc.Download(id = 'download-data'),
                 ], id='calc-history-container')
     for elem in table:
         container.children.append(elem)
@@ -132,7 +132,7 @@ def stop_calculating(n_clicks, content, username):
 
 
 
-@callback(Output('download-alert-row', 'children'),
+@callback(Output('download-data', 'data'),
           Input({'download-button': ALL}, 'n_clicks'),
           Input({'pre': ALL}, 'children'),
           State('user-name', 'data'),
@@ -145,7 +145,8 @@ def download_data(n_clicks, content, username):
         data = {'username': username, 'process_id': process_id}
         response = user.send_download(data)
         if response.status_code == 200:
-            return dbc.Alert(response.content.decode('utf-8'), color="success", duration=4000)
+            file = response.content
+            return dcc.send_bytes(file, f"process_{process_id}_results.dat")
         else:
              return dbc.Alert("Извините, что-то пошло нет так", color="warning", duration=4000)
     return dash.no_update

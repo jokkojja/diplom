@@ -87,8 +87,14 @@ async def get_pid(data = Body()):
 @app.post("/api/download")       
 def download(data = Body()):
     try:
-        res = requests.post(url='http://127.0.0.1:8052/api/upload_results', json=data)
-        
+        user = User(data)
+        res = requests.post(url='http://127.0.0.1:8053/upload_results', json=data)
+        if res.status_code == 200:
+            file_id = res.content.decode('utf-8')
+            file = user.get_result_file_from_drive(file_id)
+            return Response(content = file, status_code = status.HTTP_200_OK)
+        else:
+            return Response(content = f"Извините, что-то пошло не так. Ошибка: {e}", status_code = status.HTTP_400_BAD_REQUEST)
     except Exception as e:
         return Response(content = f"Извините, что-то пошло не так. Ошибка: {e}", status_code = status.HTTP_400_BAD_REQUEST)        
 if __name__ == "__main__":
